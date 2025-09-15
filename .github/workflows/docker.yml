@@ -1,0 +1,30 @@
+name Publicar Imagem Docker
+
+on
+  push
+    branches
+      - main
+
+jobs
+  build-and-push
+    runs-on ubuntu-latest
+    steps
+      - name Checkout do código
+        uses actionscheckout@v4
+
+      - name Login no Docker Hub
+        uses dockerlogin-action@v3
+        with
+          username ${{ secrets.DOCKERHUB_USERNAME }}
+          password ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name Configurar Docker Buildx
+        uses dockersetup-buildx-action@v3
+
+      - name Build e Push da imagem
+        uses dockerbuild-push-action@v5
+        with
+          context .
+          push true
+          tags ${{ secrets.DOCKERHUB_USERNAME }}calculadora-puclatest
+          file .Dockerfile
