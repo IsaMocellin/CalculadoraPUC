@@ -1,0 +1,37 @@
+name: CI com Alertas para o Slack
+
+on:
+  push:
+    branches: [ "formativa" ]
+  pull_request:
+    branches: [ "formativa" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes unitários
+        run: npm test
+
+      - name: Enviar alerta para o Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: '#ficticio'
+        with:
+          status: failure
+          fields: workflow,job,ref,author,commit
+          title: "🚨 Build da Calculadora Falhou"
+          footer: "Verifique os logs no GitHub para mais detalhes."
