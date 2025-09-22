@@ -1,29 +1,25 @@
 var display = document.getElementById("display");
-
 function showDisplay(value) {
-  if (value == '.') {
-    display.value = '0';
-  }
-  display.value += value;
+  if (value == '.') {
+    display.value = '0';
+  }
+  display.value += value;
 }
-
 function clearAll() {
-  display.value = "";
+  display.value = "";
 }
+function result() {
+  try {
+    let y = eval(display.value);
+    if (isNaN(y) || !isFinite(y)) {
+      display.value = "Error";z
+    } else if (y === undefined) {
+      display.value = "";
+    } else {
+      display.value = y;
+    }
+  } catch (error) {
 
-function result(expression) {
-  try {
-    let y = eval(expression);
-    if (isNaN(y) || !isFinite(y)) {
-      return "Error";
-    } else if (y === undefined) {
-      return "";
-    } else {
-      return y;
-    }
-  } catch (error) {
-    return "Error";
-  }
-}
-  
+    display.value = "Error";
+  }
 }
