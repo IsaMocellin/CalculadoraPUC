@@ -11,18 +11,19 @@ function clearAll() {
   display.value = "";
 }
 
-function result() {
+function result(expression) {
   try {
-    let y = eval(display.value);
+    let y = eval(expression);
     if (isNaN(y) || !isFinite(y)) {
-      display.value = "Error";
+      return "Error";
     } else if (y === undefined) {
-      display.value = "";
+      return "";
     } else {
-      display.value = y;
+      return y;
     }
   } catch (error) {
-    display.value = "Error";
+    return "Error";
   }
+}
   
 }
